@@ -19,7 +19,6 @@
   "homepage": "https://github.com/nliu96/ExpressSpotify#readme",
   "dependencies": {
     "express": "^4.16.2",
-    "querystring": "^0.2.0",
     "request": "^2.83.0"
   },
   "devDependencies": {

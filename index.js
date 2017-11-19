@@ -1,20 +1,20 @@
 const express = require('express');
 const request = require('request');
-const qs = require('querystring');
 const app = express();
 
 require('dotenv').config()
 
-app.get('/', (req, res) => res.send(process.env.CLIENT_ID))
+app.get('/', (req, res) => res.send('Hello world!'))
 
 app.get('/search', (req, res) => {
   var options = {
     url: 'https://api.spotify.com/v1/search',
-    qs: { q:req.query.q, type:req.query.type },
+    qs: req.query,
     headers: { 'Authorization': 'Bearer ' + process.env.ACCESS_TOKEN },
     json: true
   };
-  var search = request.get(options, (error, response, body) => {
+
+  request.get(options, (error, response, body) => {
     if(!error) {
       return res.send(body);
     } else {
