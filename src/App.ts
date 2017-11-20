@@ -13,6 +13,7 @@ class App {
     const router = express.Router()
     router.get('/', (req, res) => res.send('Hello world!'))
 
+    // Given an artist name, return spotify ID
     router.get('/search', (req, res) => {
       var options = {
         url: 'https://api.spotify.com/v1/search',
@@ -29,7 +30,8 @@ class App {
         }
       });
     })
-
+  
+    // Given a spotify ID, gets information about the artist
     router.get('/artists', (req, res) => {
       var options = {
         url: 'https://api.spotify.com/v1/artists/' + req.query.id,
