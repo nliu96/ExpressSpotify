@@ -41,29 +41,70 @@ class App {
     // Given an artist name, return spotify ID
     router.get('/search', (req, res) => {
       const params = Object.assign(req.query, { type: 'artist' })
-      axios.get('https://api.spotify.com/v1/search', { params })
+      axios.get(url('search'), { params })
         .then(({ data }) => {
           res.send(data.artists.items.map(({ followers, genres, id, images, name, popularity }) => {
             return { followers: followers.total, genres, id, images, name, popularity }
           }))
         })
-        .catch((err) => res.send(handleError(err)))
+        .catch((err) => handleError(err, res))
     })
   
     // Given a spotify ID, gets information about the artist
     router.get('/artist/:id', (req, res) => {
-      axios.get(`https://api.spotify.com/v1/artists/${req.params.id}`, { params: req.query })
+      axios.get(url(`artists/${req.params.id}`), { params: req.query })
         .then(({ data }) => {
           const { followers, genres, id, images, name, popularity } = data
           res.send({ followers: followers.total, genres, id, images, name, popularity })
         })
-        .catch((err) => res.send(handleError(err)))
+        .catch((err) => handleError(err, res))
+    })
+
+    // Return information on popular and trending artists
+    router.get('/browse', (req, res) => {
+      // Link for spotify global top 50 playlist
+      axios.get(url('users/spotifycharts/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks'))
+        .then(({ data }) => {
+          const artistImages = {}
+          const artistRanks = data.items.reduce((acc, item) => {
+            const image = item.track.album.images[1].url
+            item.track.artists.forEach(({ name }, i) => {
+              const rank = 50 - i
+              artistImages[name] = image
+              if (acc[name]) {
+                // discount repeat top artists by 2
+                acc[name] += rank / 2
+              } else {
+                acc[name] = rank
+              }
+            })
+            return acc
+          }, {})
+          const artistsByRank = Object.keys(artistRanks).sort((a, b) => artistRanks[b] - artistRanks[a])
+          const popular = artistsByRank.map((artist) => ({
+            image: artistImages[artist],
+            name: artist,
+          }))
+          res.send({ popular })
+        })
+        .catch((err) => handleError(err, res))
     })
 
     this.express.use('/', router)
   }
 }
 
-const handleError = (err) => err && err.data ? err.data.error.message : err
+const url = (endpoint) => `https://api.spotify.com/v1/${endpoint}`
+
+const handleError = (err, res) => {
+  if (err && err.data) {
+    const { status, message } = err.data.error
+    res.status(status).send(message)
+  } else if (typeof err === 'object') {
+    res.status(500).send(JSON.stringify(err, Object.getOwnPropertyNames(err)))
+  } else {
+    res.status(500).send(err)
+  }
+}
 
 export default new App().express
