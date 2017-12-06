@@ -21,7 +21,7 @@ axios.interceptors.response.use((response) => response, ({ config, response }) =
       process.env.ACCESS_TOKEN = data.access_token
       config.headers['Authorization'] = `Bearer ${process.env.ACCESS_TOKEN}`
       return axios.request(config)
-    })
+    }).catch((err) => console.log(err))
   }
   return Promise.reject(response)
 })
@@ -49,15 +49,23 @@ class App {
         })
         .catch((err) => handleError(err, res))
     })
-  
-    // Given a spotify ID, gets information about the artist
+
+    // Given a spotify ID, gets information about the artist and target price
     router.get('/artist/:id', (req, res) => {
       axios.get(url(`artists/${req.params.id}`), { params: req.query })
         .then(({ data }) => {
           const { followers, genres, id, images, name, popularity } = data
-          res.send({ followers: followers.total, genres, id, images, name, popularity })
+          const shares = 10000
+          let value = followers.total * (popularity / 100) 
+          let price = (value + Math.random() * 0.05 * followers.total) / shares
+          res.send({ followers: followers.total, genres, id, images, name, popularity, price })
         })
         .catch((err) => handleError(err, res))
+    })
+
+    // gets updated price that strives towards target price 
+    router.get('/update/:id', (req, res) => {
+        res.send({ name:"Jay Devanathan owns 90% of this company. Joe potentially could own 10%. Everyone else has options once we go public" })
     })
 
     // Return information on popular and trending artists
