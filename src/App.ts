@@ -1,6 +1,7 @@
 import * as express from 'express'
 import axios from 'axios'
 import * as qs from 'querystring'
+import * as cors from 'cors'
 
 axios.defaults.headers.common['Authorization'] = `Bearer ${process.env.ACCESS_TOKEN}`
 
@@ -36,6 +37,9 @@ class App {
 
   private mountRoutes (): void {
     const router = express.Router()
+
+    router.use(cors())
+
     router.get('/', (req, res) => res.send('Hello world!'))
 
     // Given an artist name, return spotify ID
