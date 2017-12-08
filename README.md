@@ -6,6 +6,7 @@ Re-creating the database on your local computer:
 4. Run psql -U postgres -d stocksify.
 5. Execute the below table creation commands:
 
+```
 CREATE TABLE  Artists
 ( id char(25), 
 name char(100), 
@@ -17,5 +18,6 @@ CREATE TABLE PriceHistory
 ( id char(25),
 time timestamp, 
 price decimal(2));
+```
 
 6. To check that your schema was saved. run \dt+ pricehistory and \dt+ artists. You should see the schemas reflected in the terminal.
