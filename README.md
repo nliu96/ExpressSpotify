@@ -5,6 +5,7 @@ Re-creating the database on your local computer:
 3. Open the Postgres client. You should see database "stocksify" under server "Postgres 10".
 4. Run psql -U postgres -d stocksify.
 5. Execute the below table creation commands:
+
 CREATE TABLE  Artists
 ( id char(25), 
 name char(100), 
