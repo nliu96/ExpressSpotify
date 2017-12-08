@@ -20,4 +20,4 @@ time timestamp,
 price decimal(2));
 ```
 
-6. To check that your schema was saved. run ```\dt+ pricehistory``` and ```\dt+ artists```. You should see the schemas reflected in the terminal.
+6. To check that your schema was saved, run ```\dt+ pricehistory``` and ```\dt+ artists```. You should see the schemas reflected in the terminal.
