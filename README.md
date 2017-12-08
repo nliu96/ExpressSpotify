@@ -12,7 +12,7 @@ Create a `.env` file with the correct variables set in the root directory of the
 
 ### Database setup
 1. Install Postgres.app: https://postgresapp.com/
-2. Run ```createdb stocksify``` on your terminal.
+2. Run ```createdb stocksify``` on your terminal. If the `createdb` command does not work, check that Postgres.app is running and restart your terminal.
 3. Open the Postgres client. You should see database "stocksify" under server "Postgres 10".
 4. Run ```psql -U postgres -d stocksify```.
 5. Execute the below table creation commands:
