@@ -1,5 +1,16 @@
 # stocks_backend
-Re-creating the database on your local computer:
+
+## Setup
+
+### Node setup
+Node v5+ required. Easiest to install using brew.
+Run ```npm install``` to install packages.
+After packages are installed, run ```npm run dev``` to start the server.
+
+### Environment variable setup
+Create a `.env` file with the correct variables set in the root directory of the project. Ask in the group for the contents.
+
+### Database setup
 1. Install Postgres.app: https://postgresapp.com/
 2. Run ```createdb stocksify``` on your terminal.
 3. Open the Postgres client. You should see database "stocksify" under server "Postgres 10".
