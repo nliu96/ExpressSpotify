@@ -21,6 +21,7 @@
   "homepage": "https://github.com/nliu96/ExpressSpotify#readme",
   "dependencies": {
     "axios": "^0.17.1",
+    "cors": "^2.8.4",
     "express": "^4.16.2",
     "querystring": "^0.2.0"
   },
