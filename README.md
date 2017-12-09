@@ -29,6 +29,10 @@ CREATE TABLE PriceHistory
 ( id char(25),
 time timestamp, 
 price decimal(2));
+
+CREATE TABLE Users
+( id bigint,
+  token char(200)); 
 ```
 
 6. To check that your schema was saved, run ```\dt+ pricehistory``` and ```\dt+ artists```. You should see the schemas reflected in the terminal.
