@@ -1,6 +1,7 @@
 import * as express from 'express'
 import axios from 'axios'
 import * as qs from 'querystring'
+import db from '../db'
 
 axios.defaults.headers.common['Authorization'] = `Bearer ${process.env.FACEBOOK_ACCESS_TOKEN}`
 
@@ -25,9 +26,7 @@ axios.interceptors.response.use((response) => response, ({ config, response }) =
 
 
 const store = (uid, token) => {
-  // TODO: change to invoke storage method in database javascript file
-  console.log(uid)
-  console.log(token)
+  return db.insertUser(uid, token)
 }
 
 const router = express.Router()
@@ -66,9 +65,11 @@ router.get('/register', (req, res) => {
   .then(function (response) {
     if (response.data.data.is_valid) {
       //store access token in database with user id
-      store(response.data.data.user_id, access_token)
+      return store(response.data.data.user_id, access_token)
     }
+    throw new Error("Access token invalid.")
   })
+    .then((id) => res.send(id))
   .catch(function (err) {
     console.log(Object.getOwnPropertyNames(err))
     console.log(err)

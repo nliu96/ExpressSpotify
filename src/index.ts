@@ -1,5 +1,4 @@
 import app from './App'
-import login from './Login' 
 // TODO: only require dotenv in production
 import dotenv from 'dotenv'
 require('dotenv').config()
