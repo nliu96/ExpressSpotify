@@ -1,7 +1,7 @@
 import * as express from 'express'
 import axios from 'axios'
 import * as qs from 'querystring'
-import * as cors from 'cors'
+import routes from './routes'
 
 axios.defaults.headers.common['Authorization'] = `Bearer ${process.env.ACCESS_TOKEN}`
 
@@ -15,8 +15,7 @@ axios.interceptors.response.use((response) => response, ({ config, response }) =
         username: process.env.CLIENT_ID,
         password: process.env.CLIENT_SECRET,
       },
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
+      headers: { 'Content-type': 'application/x-www-form-urlencoded'
       }
     }).then(({ data }) => {
       process.env.ACCESS_TOKEN = data.access_token
@@ -37,9 +36,6 @@ class App {
 
   private mountRoutes (): void {
     const router = express.Router()
-
-    router.use(cors())
-
     router.get('/', (req, res) => res.send('Hello world!'))
 
     // Given an artist name, return spotify ID
@@ -103,56 +99,7 @@ class App {
         .catch((err) => handleError(err, res))
     })
 
-    router.get('/register', (req, res) => {
-      // exchange req.query.code for an access token using an endpoint
-      console.log(req.query)
-      axios.get('https://graph.facebook.com/v2.11/oauth/access_token', {
-        params: {
-          client_id: process.env.FACEBOOK_ID,
-          redirect_uri: 'http://localhost:3001/register',
-          client_secret: process.env.FACEBOOK_CLIENT_SECRET,
-          code: req.query.code
-        }
-      })
-      .then(function (response) {
-        console.log(response.data.access_token)
-      })
-      .catch(function (err) {
-        console.log(err.data)
-      })
-      /*
-      //axios.get('https://graph.facebook.com/v2.11/oauth/access_token', {
-      // res.redirect('https://www.facebook.com/v2.11/dialog/oauth?client_id=1745819622156281&redirect_uri=http://localhost:3001/login')
-      // get an app access token (not sure if once or each time)
-			GET /oauth/access_token
-					?client_id={app-id}
-					&client_secret={app-secret}
-					&grant_type=client_credentials
-      // verify token once received via inspection endpoint, check app_id and user_id
-      GET graph.facebook.com/debug_token?
-        input_token={token-to-inspect}
-        &access_token={app-token-or-admin-token} 
-      // store access token in database 
-      // look at postgres code Joe wrote for cow
-      console.log(req.query.code)
-      */
-      res.send({ name:"Jay Devanathan owns 90% of this company. Joe potentially could own 10%. Everyone else has options once we go public" })
-    })
-
-    // TODO: make another endpoint for login 
-    router.get('/login', (req, res) => {
-      res.send({ name:"Jay Devanathan owns 90% of this company. Joe potentially could own 10%. Everyone else has options once we go public" })
-    })
-
-    // TODO: remove before commit
-    router.get('/registertest', (req, res) => {
-      res.redirect('https://www.facebook.com/v2.11/dialog/oauth?client_id=1745819622156281&redirect_uri=http://localhost:3001/register')
-    })
-
-    // TODO: remove before commit
-    router.get('/logintest', (req, res) => {
-      res.redirect('https://www.facebook.com/v2.11/dialog/oauth?client_id=1745819622156281&redirect_uri=http://localhost:3001/login&response_type=token&state=123')
-    })
+    router.use(routes)
 
     this.express.use('/', router)
   }
