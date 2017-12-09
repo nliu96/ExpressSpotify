@@ -20,4 +20,4 @@ Create a `.env` file with the correct variables set in the root directory of the
 
 ### Register/Login Diagram
 Observe the mediocre diagram below. "LL" stands for long-lived tokens, which last ~60 days. "req" stands for request.
-![alt text](jdevanathan3.github.io/login_registration.png)
+![alt text](http://jdevanathan3.github.io/login_registration.png)
