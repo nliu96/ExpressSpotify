@@ -9,9 +9,6 @@ const conString = isDevEnvironment ?
   'postgres://localhost/stocksify' :
   process.env.DATABASE_URL
 
-// TODO; include DATABASE_URL in env
-
-
 class Db {
   private db
 
