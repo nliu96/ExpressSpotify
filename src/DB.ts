@@ -36,5 +36,6 @@ class DB {
     , [id, token])
   }
 }
+
 export default new DB()
 

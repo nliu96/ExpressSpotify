@@ -1,9 +1,12 @@
 import * as express from 'express'
-import axios from 'axios'
+import axiosLib from 'axios'
 import * as qs from 'querystring'
 import db from '../db'
+import * as cors from 'cors'
 
-axios.defaults.headers.common['Authorization'] = `Bearer ${process.env.FACEBOOK_ACCESS_TOKEN}`
+const axios = axiosLib.create({
+  headers: { Authorization: `Bearer ${process.env.FACEBOOK_ACCESS_TOKEN}` },
+})
 
 // Gets/refreshes token using client id and secret anytime a 401 response is returned
 axios.interceptors.response.use((response) => response, ({ config, response }) => {

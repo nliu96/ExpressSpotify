@@ -1,9 +1,12 @@
 import * as express from 'express'
-import axios from 'axios'
+import * as cors from 'cors'
+import axiosLib from 'axios'
 import * as qs from 'querystring'
 import routes from './routes'
 
-axios.defaults.headers.common['Authorization'] = `Bearer ${process.env.ACCESS_TOKEN}`
+const axios = axiosLib.create({
+  headers: { Authorization: `Bearer ${process.env.ACCESS_TOKEN}` },
+})
 
 // Gets/refreshes token using client id and secret anytime a 401 response is returned
 axios.interceptors.response.use((response) => response, ({ config, response }) => {
@@ -31,11 +34,14 @@ class App {
 
   constructor () {
     this.express = express()
+
+    this.express.use(cors())
     this.mountRoutes()
   }
 
   private mountRoutes (): void {
     const router = express.Router()
+
     router.get('/', (req, res) => res.send('Hello world!'))
 
     // Given an artist name, return spotify ID
