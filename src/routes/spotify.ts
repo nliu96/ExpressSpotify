@@ -91,6 +91,22 @@ router.get('/browse', (req, res) => {
     .catch((err) => handleError(err, res))
 })
 
+router.get('/loadTestSpotify', (req, res) => {
+  setInterval(function() {
+  let stop = false
+  for (let i = 0; i < 100 && !stop; i++) {
+    axios.get(url('artists/246dkjvS1zLTtiykXe5h60'))
+      .then(({ data }) => {
+        console.log('success: ' + i)
+      })
+      .catch((err) => {
+        console.log('error: ' + i + ', retry: ' + err.headers['retry-after'])
+        stop = true
+      })
+  }
+  }, 10000)
+})
+
 const url = (endpoint) => `https://api.spotify.com/v1/${endpoint}`
 
 export default router
