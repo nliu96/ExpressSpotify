@@ -1,4 +1,4 @@
-import app from './App'
+import app from './app'
 import * as cors from 'cors'
 // TODO: only require dotenv in production
 import dotenv from 'dotenv'

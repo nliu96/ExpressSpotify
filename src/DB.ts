@@ -12,7 +12,7 @@ const conString = isDevEnvironment ?
 // TODO; include DATABASE_URL in env
 
 
-class DB {
+class Db {
   private db
 
   constructor () {
@@ -37,5 +37,5 @@ class DB {
   }
 }
 
-export default new DB()
+export default new Db()
 
