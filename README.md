@@ -23,16 +23,19 @@ CREATE TABLE  Artists
 name char(100), 
 followers integer, 
 popularity integer,
-image char(100));
+image char(100),
+PRIMARY KEY(id));
 
 CREATE TABLE PriceHistory
 ( id char(25),
 time timestamp, 
-price decimal(2));
+price decimal(2),
+PRIMARY KEY(id, timestamp));
 
 CREATE TABLE Users
 ( id bigint,
-token char(200)); 
+  token char(200),
+PRIMARY KEY(id)); 
 ```
 
 6. To check that your schema was saved, run ```\dt+ pricehistory``` and ```\dt+ artists```. You should see the schemas reflected in the terminal.
